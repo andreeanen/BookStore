@@ -1,0 +1,17 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.flex-container{
+    display: flex;
+    flex-direction:column;
+    padding:2rem;
+    overflow: auto;
+    
+}
+
+h1{
+    font-size: 4rem;
+    font-weight: 500;
+    justify-content: center;
+  }
