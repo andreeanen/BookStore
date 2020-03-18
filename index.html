@@ -18,15 +18,27 @@
         </header>
         <section>
             <button id="get-key-button" onclick="getApiKey()">Generate API key</button>
-            <!-- <button id="get-books-button" onclick="loadDocument()">Press me to get the books list</button>
-                <div id="book-list">
-                    <p>List of books</p>
-                </div> -->
             <button id="remove-key-button" onclick="removeKey()">Remove API key</button>
             <div id="key-status"> </div>
         </section>
         <section id="content">
-            <br> <br>sha la la la tra la la heeekidgfvkgskdhg
+
+            <div id="show-books">My list with books</div>
+            <div>
+                <button id="add-book-button" onclick="addBook()">Add book</button>
+
+                <form id="form-add-book">
+                    <p>Fill in the book title and the author.</p>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title"><br>
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author"><br>
+                    <input type="submit" value="Submit book">
+                </form>
+
+            </div>
+
+
         </section>
     </section>
 

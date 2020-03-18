@@ -63,17 +63,53 @@ function removeKey() {
 
 }
 
+
+
 function initializePage() {
     const key = localStorage.getItem(apiKey);
     if (key) {
         document.getElementById('content').style.display = 'block';
+        document.getElementById('add-book-button').style.display = 'block';
         console.log('init');
+        showBooks(key);
+
 
     }
     else {
         document.getElementById('content').style.display = 'none';
         console.log('show login');
     }
+}
+function showBooks(key) {
+    const getBooksQueryString = `key=${key}&op=select`;
+    const newEndpoint = baseUrl + getBooksQueryString;
+    const showBooksList = document.getElementById('show-books');
+
+    fetch(newEndpoint)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.status === 'success') {
+                console.log(data);
+
+                showBooksList.innerHTML = 'My list with a lot of books';
+            }
+
+
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+
+}
+
+function addBook() {
+    const addBookButton = document.getElementById('add-book-button');
+    document.getElementById('form-add-book').style.display = 'block';
+
+
+
 }
 
 initializePage();

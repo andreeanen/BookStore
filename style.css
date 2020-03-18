@@ -15,3 +15,7 @@ h1{
     font-weight: 500;
     justify-content: center;
   }
+
+#add-book-button, #form-add-book{
+    display: none;
+}
