@@ -172,8 +172,18 @@ function showBooks() {
                         showBooksStatus.innerHTML = 'The list of books is empty.';
                     }
                     else if (data.data.length > 0) {
-                        showBooksList.innerHTML = 'My list with a lot of books';
-                        showBooksStatus.innerHTML += `You have ${data.data.length} in your bookstore!`;
+                        showBooksStatus.innerHTML += `<br>You have ${data.data.length} books in your bookstore!`;
+                        //showBooksList.innerHTML = 'My list with a lot of books';
+                        let bookList = document.createElement('ul');
+                        for (let i = 0; i < data.data.length; i++) {
+                            let item = document.createElement('li');
+                            item.appendChild(document.createTextNode(`Title:  ${data.data[i].title}      Author:  ${data.data[i].author}`));
+                            bookList.appendChild(item);
+                            document.getElementById('book-list').appendChild(bookList);
+
+                        }
+                        //document.getElementById('book-list').appendChild(bookList);
+
 
                     }
                     currentNumberRequests = 0;
