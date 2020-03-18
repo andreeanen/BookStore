@@ -3,6 +3,8 @@ const queryString = 'requestKey';
 const apiKey = 'apiKey';
 const maxNumberRequests = 10;
 let currentNumberRequests = 0;
+let currentNumberAddRequests = 0;
+let currentNumberApiRequests = 0;
 //const keyStatus = document.getElementById('key-status');
 function loadDocument() {
     const getBooksButton = document.getElementById('get-books-button');
@@ -13,38 +15,36 @@ function getApiKey() {
     const endpoint = baseUrl + queryString;
     const keyStatus = document.getElementById('key-status');
 
-    if (currentNumberRequests < maxNumberRequests) {
+    if (currentNumberApiRequests < maxNumberRequests) {
         fetch(endpoint)
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-                currentNumberRequests++;
+                currentNumberApiRequests++;
 
                 if (data.status === 'success') {
                     console.log(data);
                     localStorage.setItem(apiKey, data.key);
 
-                    //const numberOfTries = 10 - maxNumberRequests;
-                    if (currentNumberRequests === 1) {
+                    if (currentNumberApiRequests === 1) {
                         keyStatus.innerHTML = '<br>The API key was successfully generated! After 1 try.';
                     }
                     else {
-                        keyStatus.innerHTML = `<br>The API key was successfully generated! After ${currentNumberRequests} tries.`;
+                        keyStatus.innerHTML = `<br>The API key was successfully generated! After ${currentNumberApiRequests} tries.`;
                     }
-                    currentNumberRequests = 0;
-                    //keyStatus.innerHTML = '<br>The API key was successfully generated! After  .';
+                    currentNumberApiRequests = 0;
                     initializePage();
                 }
                 else {
                     keyStatus.innerHTML = 'The API key was not successfully generated.. Try again';
-                    console.log(currentNumberRequests);
+                    console.log(currentNumberApiRequests);
                     getApiKey();
 
                 }
             })
             .catch(function (error) {
-                //return console.log(error)
+
                 keyStatus.innerHTML = 'Unexpected error! The API key was not successfully generated.. Try again';
             })
 
@@ -55,11 +55,66 @@ function getApiKey() {
 
 };
 
+function showAddBookForm() {
+    //const addBookButton = document.getElementById('add-book-button');
+    document.getElementById('form-add-book').style.display = 'block';
+    // alert('You pressed a button');
+
+}
+
+function submitBook() {
+    const key = localStorage.getItem(apiKey);
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+
+    const addBookQueryString = `key=${key}&op=insert&title=${title}&author=${author}`;
+    const addEndpoint = baseUrl + addBookQueryString;
+    const showBooksStatus = document.getElementById('show-books-status');
+    if (currentNumberAddRequests < maxNumberRequests) {
+
+        fetch(addEndpoint)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                currentNumberAddRequests++;
+                if (data.status === 'success') {
+                    console.log(data.id);
+                    if (currentNumberAddRequests === 1) {
+                        showBooksStatus.innerHTML = '<br>The API key was successfully generated! After 1 try.';
+                    }
+                    else {
+                        showBooksStatus.innerHTML = `<br>The API key was successfully generated! After ${currentNumberAddRequests} tries.`;
+                    }
+
+                    currentNumberAddRequests = 0;
+                    showBooks();
+                }
+                else {
+                    showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again';
+                    console.log(currentNumberAddRequests);
+                    submitBook();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+    else {
+        showBooksStatus.innerHTML = 'You reached maximum number of requests to show the books list.';
+    }
+
+}
+
 function removeKey() {
     localStorage.clear();
     initializePage();
     const keyStatus = document.getElementById('key-status');
     keyStatus.innerHTML = '<br>The API key was removed';
+    currentNumberApiRequests = 0;
+    currentNumberAddRequests = 0;
+    currentNumberRequests = 0;
+    showBooksStatus.innerHTML = "";
 
 }
 
@@ -71,7 +126,8 @@ function initializePage() {
         document.getElementById('content').style.display = 'block';
         document.getElementById('add-book-button').style.display = 'block';
         console.log('init');
-        showBooks(key);
+        showBooks();
+        // submitBook(key);
 
 
     }
@@ -80,36 +136,63 @@ function initializePage() {
         console.log('show login');
     }
 }
-function showBooks(key) {
+function showBooks() {
+    const key = localStorage.getItem(apiKey);
     const getBooksQueryString = `key=${key}&op=select`;
     const newEndpoint = baseUrl + getBooksQueryString;
-    const showBooksList = document.getElementById('show-books');
+    const showBooksList = document.getElementById('book-list');
+    const showBooksStatus = document.getElementById('show-books-status');
+    if (currentNumberRequests < maxNumberRequests) {
 
-    fetch(newEndpoint)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            if (data.status === 'success') {
+        fetch(newEndpoint)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                currentNumberRequests++;
                 console.log(data);
+                // if (data.data.length === 0 && data.status === 'success') {
+                //     showBooksStatus.innerHTML = 'The list of books is empty.';
+                // }
+                // else if (data.data.length > 0 && data.status === 'success') {
+                //     showBooksList.innerHTML = 'My list with a lot of books';
+                //     currentNumberRequests = 0;
+                // }
+                // else {
+                //     showBooksStatus.innerHTML += 'The book could not be added to the list.. Try again';
+                //     console.log(currentNumberRequests);
+                //     showBooks();
+                // }
 
-                showBooksList.innerHTML = 'My list with a lot of books';
-            }
+
+                if (data.status === 'success') {
+                    console.log(data);
+                    if (data.data.length === 0) {
+
+                        showBooksStatus.innerHTML = 'The list of books is empty.';
+                    }
+                    else if (data.data.length > 0) {
+                        showBooksList.innerHTML = 'My list with a lot of books';
+                        showBooksStatus.innerHTML += `You have ${data.data.length} in your bookstore!`;
+
+                    }
+                    currentNumberRequests = 0;
+                }
+                else {
+                    //showBooksStatus.innerHTML = 'The book was not added.';
+                    console.log(currentNumberRequests);
+                    showBooks();
+                }
 
 
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
 }
 
-function addBook() {
-    const addBookButton = document.getElementById('add-book-button');
-    document.getElementById('form-add-book').style.display = 'block';
-
-
-
-}
 
 initializePage();
+

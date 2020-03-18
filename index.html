@@ -23,17 +23,20 @@
         </section>
         <section id="content">
 
-            <div id="show-books">My list with books</div>
+            <div id="show-books-status"></div>
+            <div id="book-list"></div>
             <div>
-                <button id="add-book-button" onclick="addBook()">Add book</button>
+                <button id="add-book-button" onclick="showAddBookForm()">Add book</button>
+
+                <hr>
 
                 <form id="form-add-book">
-                    <p>Fill in the book title and the author.</p>
                     <label for="title">Title</label>
-                    <input type="text" id="title" name="title"><br>
+                    <input type="text" id="title"><br>
                     <label for="author">Author</label>
-                    <input type="text" id="author" name="author"><br>
-                    <input type="submit" value="Submit book">
+                    <input type="text" id="author"><br>
+                    <input onclick="event.preventDefault(); submitBook();" type="submit" value="Submit book"
+                        id="submit-button">
                 </form>
 
             </div>
