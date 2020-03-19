@@ -19,6 +19,8 @@
         <section>
             <button id="get-key-button" onclick="getApiKey()">Generate API key</button>
             <button id="remove-key-button" onclick="removeKey()">Remove API key</button>
+            <button id="get-books" onclick="showBooks()">Get list of books</button>
+
             <div id="key-status"> </div>
         </section>
         <section id="content">
@@ -39,8 +41,11 @@
                     <input type="text" id="title"><br>
                     <label for="author">Author</label>
                     <input type="text" id="author"><br>
-                    <input onclick="event.preventDefault(); submitBook();  " type="submit" value="Submit book"
+                    <input onclick="event.preventDefault(); submitBook();  " type="submit" value="Save"
                         id="submit-button">
+                    <input id="update-button" onclick="event.preventDefault(); updateBook()" type="submit"
+                        value="Save changes">
+                    <input type="hidden" id="book-edit-id" value="">
                 </form>
 
             </div>
