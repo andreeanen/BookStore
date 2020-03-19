@@ -24,8 +24,10 @@
         <section id="content">
 
             <div id="show-books-status"></div>
-            <div id="book-list">
-            </div>
+            <ul id="book-list">
+            </ul>
+            <!-- <div></div>
+            <div id="delete-book-status"></div> -->
             <div>
                 <button id="add-book-button" onclick="showAddBookForm()">Add book</button>
 
@@ -36,7 +38,7 @@
                     <input type="text" id="title"><br>
                     <label for="author">Author</label>
                     <input type="text" id="author"><br>
-                    <input onclick="event.preventDefault(); submitBook();" type="submit" value="Submit book"
+                    <input onclick="event.preventDefault(); submitBook();  " type="submit" value="Submit book"
                         id="submit-button">
                 </form>
 
