@@ -69,8 +69,8 @@ function submitBook() {
     const author = document.getElementById('author').value;
     const addBookQueryString = `key=${key}&op=insert&title=${title}&author=${author}`;
     const addEndpoint = baseUrl + addBookQueryString;
-    const showBooksStatus = document.getElementById('show-books-status');
-    // const bookList = document.getElementById('book-list');
+    //const showBooksStatus = document.getElementById('show-books-status');
+    const addBookStatus = document.getElementById('add-book-status');
     if (currentNumberAddRequests < maxNumberRequests) {
 
         fetch(addEndpoint)
@@ -82,10 +82,12 @@ function submitBook() {
 
                 if (data.status === 'success') {
                     if (currentNumberAddRequests === 1) {
-                        showBooksStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
+                        //showBooksStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
+                        addBookStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
                     }
                     else {
-                        showBooksStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
+                        //showBooksStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
+                        addBookStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
                     }
 
                     currentNumberAddRequests = 0;
@@ -93,7 +95,8 @@ function submitBook() {
                     resetBookForm();
                 }
                 else {
-                    showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again';
+                    //showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again';
+                    addBookStatus.innerHTML = 'The book could not be added to the list.. Try again';
                     console.log(currentNumberAddRequests);
                     submitBook();
                 }
@@ -103,7 +106,8 @@ function submitBook() {
             })
     }
     else {
-        showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again.';
+        //showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again.';
+        addBookStatus.innerHTML = 'The book could not be added to the list.. Try again.';
         currentNumberAddRequests = 0;
     }
 
@@ -159,57 +163,61 @@ function showBooks() {
                             let item = document.createElement('li');
                             item.className = "list-items";
                             item.appendChild(document.createTextNode(`Title:  ${data.data[i].title}      Author:  ${data.data[i].author}`));
-                            // const buttonDelete = document.createElement('button');
-                            // buttonDelete.innerHTML = 'Delete';
-                            // buttonDelete.addEventListener('click', function deleteBook() {
-                            //     alert('delete book');
-                            //     const deleteBookStatus = document.getElementById('delete-book-status');
-                            //     const deleteBookQueryString = `key=${key}&op=delete&id=${data.data[i].id}`;
-                            //     const deleteBookEndpoint = baseUrl + deleteBookQueryString;
-                            //     if (currentNumberDeleteRequests < maxNumberRequests) {
+                            const buttonDelete = document.createElement('button');
+                            buttonDelete.innerHTML = 'Delete';
+                            buttonDelete.addEventListener('click', function deleteBook() {
+                                const deleteBookStatus = document.getElementById('delete-book-status');
+                                const deleteBookQueryString = `key=${key}&op=delete&id=${data.data[i].id}`;
+                                const deleteBookEndpoint = baseUrl + deleteBookQueryString;
+                                if (currentNumberDeleteRequests < maxNumberRequests) {
 
-                            //         fetch(deleteBookEndpoint)
-                            //             .then(function (response) {
-                            //                 return response.json();
-                            //             })
-                            //             .then(function (data) {
-                            //                 currentNumberDeleteRequests++;
-                            //                 console.log(data);
+                                    fetch(deleteBookEndpoint)
+                                        .then(function (response) {
+                                            return response.json();
+                                        })
+                                        .then(function (data) {
+                                            currentNumberDeleteRequests++;
+                                            console.log(data);
 
-                            //                 if (data.status === 'success') {
-                            //                     if (currentNumberDeleteRequests === 1) {
-                            //                         showBooksStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
-                            //                     }
-                            //                     else {
-                            //                         showBooksStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
-                            //                     }
+                                            if (data.status === 'success') {
+                                                if (currentNumberDeleteRequests === 1) {
+                                                    //showBooksStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
+                                                    deleteBookStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
+                                                }
+                                                else {
+                                                    //showBooksStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
+                                                    deleteBookStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
+                                                }
 
-                            //                     currentNumberDeleteRequests = 0;
-                            //                     showBooks();
-                            //                 }
-                            //                 else {
-                            //                     //deleteBookStatus.innerHTML = 'The book could not be deleted from the list.';
-                            //                     console.log(currentNumberDeleteRequests);
-                            //                     deleteBook();
-                            //                 }
-                            //             })
-                            //             .catch(function (error) {
-                            //                 console.log(error);
-                            //             })
-                            //     }
-                            //     else {
-                            //         showBooksStatus.innerHTML = 'The book could not be deleted from the list.. Try again.';
-                            //         currentNumberDeleteRequests = 0;
-                            //     }
+                                                currentNumberDeleteRequests = 0;
+                                                showBooks();
+                                            }
+                                            else {
+                                                //showBooksStatus.innerHTML = 'The book could not be deleted from the list.';
+                                                deleteBookStatus.innerHTML = 'The book could not be deleted from the list.';
+                                                console.log(currentNumberDeleteRequests);
+                                                deleteBook();
+                                            }
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        })
+                                }
+                                else {
+                                    //showBooksStatus.innerHTML = 'The book could not be deleted from the list.. Try again.';
+                                    deleteBookStatus.innerHTML = 'The book could not be deleted from the list.. Try again.';
+                                    currentNumberDeleteRequests = 0;
+                                }
 
 
-                            // });
-                            // item.appendChild(buttonDelete);
+                            });
+                            item.appendChild(buttonDelete);
 
                             bookListElement.appendChild(item);
                         }
                     }
                     currentNumberRequests = 0;
+                    currentNumberDeleteRequests = 0;
                 }
                 else {
                     showBooksStatus.innerHTML = 'There are no books to show.';
