@@ -72,7 +72,6 @@ function submitBook() {
     const author = document.getElementById('author').value;
     const addBookQueryString = `key=${key}&op=insert&title=${title}&author=${author}`;
     const addEndpoint = baseUrl + addBookQueryString;
-    //const showBooksStatus = document.getElementById('show-books-status');
     const addBookStatus = document.getElementById('add-book-status');
     const deleteBookStatus = document.getElementById('delete-book-status');
     deleteBookStatus.innerHTML = "";
