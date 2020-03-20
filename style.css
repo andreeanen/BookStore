@@ -1,7 +1,84 @@
 *{
     margin: 0px;
     padding: 0px;
+    background-color: #FDFEF8;
 }
+
+body{
+    font-size: 1.25rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button{
+  background-color: #4CAF50;
+  border: none;
+  color:#E0E1E1;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  /* transition-duration: 0.4s; */
+  transition: all 0.3s ease 0s;
+  width: 200px;
+  height:50px;
+  margin:10px 10px 10px 0px;
+}
+
+#title{
+    margin-left: 22px;
+}
+#title, #author{
+    width: 300px;
+    height: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.15rem;
+}
+
+.edit-button{
+    background-color: blueviolet;
+    border: none;
+    color: #E0E1E1;
+    padding: 4px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 8px;
+    /* transition-duration: 0.4s; */
+    /* transition: all 0.3s ease 0s; */
+    width: 55px;
+    height: 35px;
+    margin: 2px 10px 2px 0px;
+
+}
+
+.delete-button{background-color: #e63c3c;
+    border: none;
+    color: #E0E1E1;
+    padding: -1px 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 8px;
+        width: 55px;
+    height: 35px;
+    margin: 2px 15px 2px 0px;
+}
+
+
+
+.box{
+    margin:10px;
+}
+
+.button:hover {
+    background-color:#E0E1E1;
+    color: #4CAF50;
+  }
 .flex-container{
     display: flex;
     flex-direction:column;
@@ -10,19 +87,29 @@
     
 }
 
+#book-list{
+    border: 2px#E0E1E1;
+    border-style: solid;
+    border-radius: 8px;
+    width:700px;
+}
+
 h1{
     font-size: 4rem;
     font-weight: 500;
     justify-content: center;
   }
 
-#add-book-button, #form-add-book{
+#add-book-button, #form-add-book, #get-books{
     display: none;
-    margin: 30px;
 }
 
 .list-items{
-    
-    color:red;
+    list-style: none;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    border:black 1px;
 }
 

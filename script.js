@@ -108,11 +108,11 @@ function submitBook() {
                 if (data.status === 'success') {
                     if (currentNumberAddRequests === 1) {
                         //showBooksStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
-                        addBookStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
+                        addBookStatus.innerHTML = '<br>The book you selected  was successfully added! After 1 try.';
                     }
                     else {
                         //showBooksStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
-                        addBookStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
+                        addBookStatus.innerHTML = `<br>The book you selected was successfully added! After ${currentNumberAddRequests} tries.`;
                     }
 
                     currentNumberAddRequests = 0;
@@ -163,13 +163,17 @@ function removeKey() {
     currentNumberRequests = 0;
     currentNumberDeleteRequests = 0;
     currentNumberEditRequests = 0;
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('add-book-button').style.display = 'none';
+    document.getElementById('get-books').style.display = 'none';
 }
 
 function initializePage() {
     const key = localStorage.getItem(apiKey);
     if (key) {
         document.getElementById('content').style.display = 'block';
-        document.getElementById('add-book-button').style.display = 'block';
+        document.getElementById('add-book-button').style.display = 'inline-block';
+        document.getElementById('get-books').style.display = 'inline-block';
         console.log('init');
         showBooks();
     }
@@ -199,24 +203,33 @@ function showBooks() {
                         showBooksStatus.innerHTML = 'The list of books is empty.';
                     }
                     else if (data.data.length > 0) {
-                        showBooksStatus.innerHTML = `<br>You have ${data.data.length} books in your bookstore!`;
+                        if (data.data.length === 1) {
+                            showBooksStatus.innerHTML = `<br>You have ${data.data.length} book in your bookstore!`;
+                        }
+                        else {
+                            showBooksStatus.innerHTML = `<br>You have ${data.data.length} books in your bookstore!`;
+                        }
+
 
                         for (let i = 0; i < data.data.length; i++) {
                             const bookObject = data.data[i];
-
                             let item = document.createElement('li');
-                            item.className = "list-items";
-                            item.appendChild(document.createTextNode(`Title:  ${data.data[i].title}      Author:  ${data.data[i].author}`));
-
-                            const buttonDelete = document.createElement('button');
-                            buttonDelete.innerHTML = 'Delete';
-                            buttonDelete.addEventListener('click', function () { deleteBook(key, bookObject.id); });
-                            item.appendChild(buttonDelete);
 
                             const buttonEdit = document.createElement('button');
                             buttonEdit.innerHTML = 'Edit';
+                            buttonEdit.className = 'edit-button';
                             buttonEdit.addEventListener('click', function () { editForm(bookObject); });
                             item.appendChild(buttonEdit);
+
+
+                            const buttonDelete = document.createElement('button');
+                            buttonDelete.innerHTML = 'Delete';
+                            buttonDelete.className = 'delete-button';
+                            buttonDelete.addEventListener('click', function () { deleteBook(key, bookObject.id); });
+                            item.appendChild(buttonDelete);
+
+                            item.className = "list-items";
+                            item.appendChild(document.createTextNode(`${data.data[i].title} by ${data.data[i].author}`));
 
                             bookListElement.appendChild(item);
                         }
@@ -262,11 +275,11 @@ const deleteBook = function (key, id) {
                 if (data.status === 'success') {
                     if (currentNumberDeleteRequests === 1) {
                         //showBooksStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
-                        deleteBookStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
+                        deleteBookStatus.innerHTML = '<br>The book you selected was successfully deleted! After 1 try.';
                     }
                     else {
                         //showBooksStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
-                        deleteBookStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
+                        deleteBookStatus.innerHTML = `<br>The book you selected was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
                     }
 
                     currentNumberDeleteRequests = 0;
@@ -351,10 +364,10 @@ const updateBook = function () {
                     console.log(data);
 
                     if (currentNumberEditRequests === 1) {
-                        modifyBookStatus.innerHTML = '<br>The book was successfully modified! After 1 try.';
+                        modifyBookStatus.innerHTML = '<br>The book you selected was successfully modified! After 1 try.';
                     }
                     else {
-                        modifyBookStatus.innerHTML = `<br>The book was successfully modified! After ${currentNumberEditRequests} tries.`;
+                        modifyBookStatus.innerHTML = `<br>The book you selected was successfully modified! After ${currentNumberEditRequests} tries.`;
                     }
                     currentNumberEditRequests = 0;
                     showBooks();

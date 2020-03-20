@@ -17,34 +17,38 @@
             </div>
         </header>
         <section>
-            <button id="get-key-button" onclick="getApiKey()">Generate API key</button>
-            <button id="remove-key-button" onclick="removeKey()">Remove API key</button>
-            <button id="get-books" onclick="showBooks()">Get list of books</button>
+            <div class="box">
+                <button class="button" id="get-key-button" onclick="getApiKey()">Generate API key</button>
+                <button class="button" id="remove-key-button" onclick="removeKey()">Remove API key</button>
+            </div>
+            <div class="box" id="key-status"> </div>
+            <div class="box">
+                <button class="button" id="add-book-button" onclick="showAddBookForm()">Add book</button>
+                <button class="button" id="get-books" onclick="showBooks()">Get list of books</button>
+            </div>
 
-            <div id="key-status"> </div>
         </section>
         <section id="content">
 
-            <div id="show-books-status"></div>
-            <ul id="book-list">
+            <div class="box" id="show-books-status"></div>
+            <ul class="box" id="book-list">
             </ul>
-            <div id="add-book-status"></div>
-            <div id="delete-book-status"></div>
-            <div id="modify-book-status"> </div>
-            <div>
-                <button id="add-book-button" onclick="showAddBookForm()">Add book</button>
+            <div class="box">
 
-                <hr>
-
+                <div id="add-book-status"></div>
+                <div id="delete-book-status"></div>
+                <div id="modify-book-status"> </div>
+            </div>
+            <div class="box">
                 <form id="form-add-book">
                     <label for="title">Title</label>
                     <input required type="text" id="title"><br>
                     <label for="author">Author</label>
                     <input type="text" id="author" required><br>
-                    <input onclick="event.preventDefault(); submitBook();  " type="submit" value="Save"
+                    <input class="button" onclick="event.preventDefault(); submitBook();  " type="submit" value="Save"
                         id="submit-button">
-                    <input id="update-button" onclick="event.preventDefault(); updateBook()" type="submit"
-                        value="Save changes">
+                    <input class="button" id="update-button" onclick="event.preventDefault(); updateBook()"
+                        type="submit" value="Save changes">
                     <input type="hidden" id="book-edit-id" value="">
                 </form>
 
