@@ -1,12 +1,13 @@
 *{
     margin: 0px;
     padding: 0px;
-    background-color: #FDFEF8;
+    background-color: #FDFEF8; 
+   
 }
 
 body{
     font-size: 1.25rem;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Hind', sans-serif;
 }
 
 .button{
@@ -19,11 +20,11 @@ body{
   display: inline-block;
   font-size: 16px;
   border-radius: 8px;
-  /* transition-duration: 0.4s; */
-  transition: all 0.3s ease 0s;
+   transition: all 0.3s ease 0s;
   width: 200px;
   height:50px;
   margin:10px 10px 10px 0px;
+  font-family: 'Hind', sans-serif;
 }
 
 #title{
@@ -37,39 +38,44 @@ body{
     font-size: 1.15rem;
 }
 
-.edit-button{
-    background-color: blueviolet;
+.edit-button, .delete-button{
     border: none;
     color: #E0E1E1;
-    padding: 4px 14px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
     border-radius: 8px;
-    /* transition-duration: 0.4s; */
-    /* transition: all 0.3s ease 0s; */
     width: 55px;
     height: 35px;
-    margin: 2px 10px 2px 0px;
+    font-family: 'Hind', sans-serif;
 
 }
 
-.delete-button{background-color: #e63c3c;
+.item-button{ 
     border: none;
-    color: #E0E1E1;
-    padding: -1px 9px;
-    text-align: center;
+    color: black;
+    text-align: left;
     text-decoration: none;
     display: inline-block;
-    font-size: 14px;
-    border-radius: 8px;
-        width: 55px;
+    font-size: 16px;
+    width: 300px;
     height: 35px;
-    margin: 2px 15px 2px 0px;
+    font-family: 'Hind', sans-serif;
+
+}
+.edit-button{
+    background-color:#541388;
+        padding: 4px 14px;
+        margin: 2px 10px 2px 0px;
+
 }
 
-
+.delete-button{
+    background-color: #e63c3c;
+    padding: -1px 9px;
+    margin: 2px 15px 2px 0px;
+}
 
 .box{
     margin:10px;
@@ -79,6 +85,7 @@ body{
     background-color:#E0E1E1;
     color: #4CAF50;
   }
+
 .flex-container{
     display: flex;
     flex-direction:column;
@@ -98,6 +105,8 @@ h1{
     font-size: 4rem;
     font-weight: 500;
     justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    
   }
 
 #add-book-button, #form-add-book, #get-books{
@@ -113,3 +122,29 @@ h1{
     border:black 1px;
 }
 
+@media only screen and (max-width: 600px){
+
+    body, .list-items{
+        font-size: 1rem;
+    }
+
+    h1{
+        font-size: 3rem;
+    }
+
+    #title{
+        margin-left: 0px;;
+    }
+
+    #title, #author{
+        font-size: 1rem;
+    }
+
+    .flex-container{
+        padding:1rem;
+    }
+
+    #book-list{
+        width:310px;
+    }
+}

@@ -8,7 +8,6 @@ let currentNumberApiRequests = 0;
 let currentNumberDeleteRequests = 0;
 let currentNumberEditRequests = 0;
 
-
 function getApiKey() {
     const endpoint = baseUrl + queryString;
     const keyStatus = document.getElementById('key-status');
@@ -26,10 +25,10 @@ function getApiKey() {
                     localStorage.setItem(apiKey, data.key);
 
                     if (currentNumberApiRequests === 1) {
-                        keyStatus.innerHTML = '<br>The API key was successfully generated! After 1 try.';
+                        keyStatus.innerHTML = 'The API key was successfully generated! After 1 try.';
                     }
                     else {
-                        keyStatus.innerHTML = `<br>The API key was successfully generated! After ${currentNumberApiRequests} tries.`;
+                        keyStatus.innerHTML = `The API key was successfully generated! After ${currentNumberApiRequests} tries.`;
                     }
                     currentNumberApiRequests = 0;
                     initializePage();
@@ -38,11 +37,9 @@ function getApiKey() {
                     keyStatus.innerHTML = 'The API key was not successfully generated.. Try again';
                     console.log(currentNumberApiRequests);
                     getApiKey();
-
                 }
             })
             .catch(function (error) {
-
                 keyStatus.innerHTML = 'Unexpected error! The API key was not successfully generated.. Try again';
             })
 
@@ -66,16 +63,14 @@ function resetBookForm() {
     form.style.display = 'none';
 }
 
-
 function submitBook() {
     const key = localStorage.getItem(apiKey);
     const title = document.getElementById('title');
-    //const titleValue = title.value;
     const author = document.getElementById('author');
-    //const authorValue = author.value;
     const addBookQueryString = `key=${key}&op=insert&title=${title.value}&author=${author.value}`;
     const addEndpoint = baseUrl + addBookQueryString;
     const addBookStatus = document.getElementById('add-book-status');
+
     const deleteBookStatus = document.getElementById('delete-book-status');
     deleteBookStatus.innerHTML = "";
     const modifyBookStatus = document.getElementById('modify-book-status');
@@ -84,17 +79,6 @@ function submitBook() {
     if (!validateInput(title, author)) {
         return false;
     }
-    //validateInput(title, author);
-    // if (titleValue === "") {
-    //     window.alert("Please enter the book title.");
-    //     title.focus();
-    //     return false;
-    // }
-    // if (authorValue === "") {
-    //     window.alert('Please enter the author of the book.');
-    //     author.focus();
-    //     return false;
-    // }
 
     if (currentNumberAddRequests < maxNumberRequests) {
 
@@ -107,12 +91,10 @@ function submitBook() {
 
                 if (data.status === 'success') {
                     if (currentNumberAddRequests === 1) {
-                        //showBooksStatus.innerHTML = '<br>The book was successfully added! After 1 try.';
-                        addBookStatus.innerHTML = '<br>The book you selected  was successfully added! After 1 try.';
+                        addBookStatus.innerHTML = 'The book was successfully added to you list! After 1 try.';
                     }
                     else {
-                        //showBooksStatus.innerHTML = `<br>The book was successfully added! After ${currentNumberAddRequests} tries.`;
-                        addBookStatus.innerHTML = `<br>The book you selected was successfully added! After ${currentNumberAddRequests} tries.`;
+                        addBookStatus.innerHTML = `The book was successfully added to your list! After ${currentNumberAddRequests} tries.`;
                     }
 
                     currentNumberAddRequests = 0;
@@ -120,7 +102,6 @@ function submitBook() {
                     resetBookForm();
                 }
                 else {
-                    //showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again';
                     addBookStatus.innerHTML = 'There was an error adding the book to the list.';
                     console.log(currentNumberAddRequests);
                     submitBook();
@@ -132,7 +113,6 @@ function submitBook() {
             })
     }
     else {
-        //showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again.';
         addBookStatus.innerHTML = 'You reached the maximum number of requests to add the book to the list. Try again!';
         currentNumberAddRequests = 0;
     }
@@ -157,7 +137,7 @@ function removeKey() {
     localStorage.clear();
     initializePage();
     const keyStatus = document.getElementById('key-status');
-    keyStatus.innerHTML = '<br>The API key was removed';
+    keyStatus.innerHTML = 'The API key was removed';
     currentNumberApiRequests = 0;
     currentNumberAddRequests = 0;
     currentNumberRequests = 0;
@@ -182,6 +162,7 @@ function initializePage() {
         console.log('show login');
     }
 }
+
 function showBooks() {
     const key = localStorage.getItem(apiKey);
     const getBooksQueryString = `key=${key}&op=select`;
@@ -200,14 +181,14 @@ function showBooks() {
 
                 if (data.status === 'success') {
                     if (data.data.length === 0) {
-                        showBooksStatus.innerHTML = 'The list of books is empty.';
+                        showBooksStatus.innerHTML = 'The booklist is empty.';
                     }
                     else if (data.data.length > 0) {
                         if (data.data.length === 1) {
-                            showBooksStatus.innerHTML = `<br>You have ${data.data.length} book in your bookstore!`;
+                            showBooksStatus.innerHTML = `You have ${data.data.length} book in your booklist!`;
                         }
                         else {
-                            showBooksStatus.innerHTML = `<br>You have ${data.data.length} books in your bookstore!`;
+                            showBooksStatus.innerHTML = `You have ${data.data.length} books in your booklist!`;
                         }
 
 
@@ -221,16 +202,18 @@ function showBooks() {
                             buttonEdit.addEventListener('click', function () { editForm(bookObject); });
                             item.appendChild(buttonEdit);
 
-
                             const buttonDelete = document.createElement('button');
                             buttonDelete.innerHTML = 'Delete';
                             buttonDelete.className = 'delete-button';
                             buttonDelete.addEventListener('click', function () { deleteBook(key, bookObject.id); });
                             item.appendChild(buttonDelete);
 
-                            item.className = "list-items";
-                            item.appendChild(document.createTextNode(`${data.data[i].title} by ${data.data[i].author}`));
+                            const buttonItem = document.createElement('button');
+                            buttonItem.innerText = `${data.data[i].title} by ${data.data[i].author}`;
+                            buttonItem.className = 'item-button';
+                            item.appendChild(buttonItem);
 
+                            item.className = "list-items";
                             bookListElement.appendChild(item);
                         }
                     }
@@ -248,7 +231,7 @@ function showBooks() {
             })
     }
     else {
-        showBooksStatus.innerHTML = 'You reached the maximum number of tries to show the books. Press Get books button!';
+        showBooksStatus.innerHTML = 'You reached the maximum number of tries to show the books. Press "Get list of books" button!';
         currentNumberRequests = 0;
     }
 
@@ -262,6 +245,7 @@ const deleteBook = function (key, id) {
     addBookStatus.innerHTML = "";
     const modifyBookStatus = document.getElementById('modify-book-status');
     modifyBookStatus.innerHTML = "";
+
     if (currentNumberDeleteRequests < maxNumberRequests) {
 
         fetch(deleteBookEndpoint)
@@ -274,19 +258,16 @@ const deleteBook = function (key, id) {
 
                 if (data.status === 'success') {
                     if (currentNumberDeleteRequests === 1) {
-                        //showBooksStatus.innerHTML = '<br>The book was successfully deleted! After 1 try.';
-                        deleteBookStatus.innerHTML = '<br>The book you selected was successfully deleted! After 1 try.';
+                        deleteBookStatus.innerHTML = 'The book you selected was successfully deleted! After 1 try.';
                     }
                     else {
-                        //showBooksStatus.innerHTML = `<br>The book was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
-                        deleteBookStatus.innerHTML = `<br>The book you selected was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
+                        deleteBookStatus.innerHTML = `The book you selected was successfully deleted! After ${currentNumberDeleteRequests} tries.`;
                     }
 
                     currentNumberDeleteRequests = 0;
                     showBooks();
                 }
                 else {
-                    //showBooksStatus.innerHTML = 'The book could not be deleted from the list.';
                     deleteBookStatus.innerHTML = 'There was an error deleting the book from the list.';
                     console.log(currentNumberDeleteRequests);
                     deleteBook(key, id);
@@ -298,7 +279,6 @@ const deleteBook = function (key, id) {
             })
     }
     else {
-        //showBooksStatus.innerHTML = 'The book could not be deleted from the list.. Try again.';
         deleteBookStatus.innerHTML = 'You reached the maximum number of requests to delete the book. Try again!';
         currentNumberDeleteRequests = 0;
     }
@@ -321,8 +301,6 @@ const editForm = function (bookToEdit) {
 
 }
 
-
-
 const updateBook = function () {
     const key = localStorage.getItem(apiKey);
     const modifyBookStatus = document.getElementById('modify-book-status');
@@ -341,16 +319,6 @@ const updateBook = function () {
     if (!validateInput(newTitle, newAuthor)) {
         return false;
     }
-    // if (newTitleValue === "") {
-    //     window.alert("Please enter the book title.");
-    //     newTitle.focus();
-    //     return false;
-    // }
-    // if (newAuthorValue === "") {
-    //     window.alert('Please enter the author of the book.');
-    //     newAuthor.focus();
-    //     return false;
-    // }
 
     if (currentNumberEditRequests < maxNumberRequests) {
         fetch(editingEndpoint)
@@ -364,10 +332,10 @@ const updateBook = function () {
                     console.log(data);
 
                     if (currentNumberEditRequests === 1) {
-                        modifyBookStatus.innerHTML = '<br>The book you selected was successfully modified! After 1 try.';
+                        modifyBookStatus.innerHTML = 'The book you selected was successfully modified! After 1 try.';
                     }
                     else {
-                        modifyBookStatus.innerHTML = `<br>The book you selected was successfully modified! After ${currentNumberEditRequests} tries.`;
+                        modifyBookStatus.innerHTML = `The book you selected was successfully modified! After ${currentNumberEditRequests} tries.`;
                     }
                     currentNumberEditRequests = 0;
                     showBooks();
