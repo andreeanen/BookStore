@@ -38,9 +38,9 @@
 
                 <form id="form-add-book">
                     <label for="title">Title</label>
-                    <input type="text" id="title"><br>
+                    <input required type="text" id="title"><br>
                     <label for="author">Author</label>
-                    <input type="text" id="author"><br>
+                    <input type="text" id="author" required><br>
                     <input onclick="event.preventDefault(); submitBook();  " type="submit" value="Save"
                         id="submit-button">
                     <input id="update-button" onclick="event.preventDefault(); updateBook()" type="submit"

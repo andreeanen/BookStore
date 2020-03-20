@@ -66,17 +66,36 @@ function resetBookForm() {
     form.style.display = 'none';
 }
 
+
 function submitBook() {
     const key = localStorage.getItem(apiKey);
-    const title = document.getElementById('title').value;
-    const author = document.getElementById('author').value;
-    const addBookQueryString = `key=${key}&op=insert&title=${title}&author=${author}`;
+    const title = document.getElementById('title');
+    //const titleValue = title.value;
+    const author = document.getElementById('author');
+    //const authorValue = author.value;
+    const addBookQueryString = `key=${key}&op=insert&title=${title.value}&author=${author.value}`;
     const addEndpoint = baseUrl + addBookQueryString;
     const addBookStatus = document.getElementById('add-book-status');
     const deleteBookStatus = document.getElementById('delete-book-status');
     deleteBookStatus.innerHTML = "";
     const modifyBookStatus = document.getElementById('modify-book-status');
     modifyBookStatus.innerHTML = "";
+
+    if (!validateInput(title, author)) {
+        return false;
+    }
+    //validateInput(title, author);
+    // if (titleValue === "") {
+    //     window.alert("Please enter the book title.");
+    //     title.focus();
+    //     return false;
+    // }
+    // if (authorValue === "") {
+    //     window.alert('Please enter the author of the book.');
+    //     author.focus();
+    //     return false;
+    // }
+
     if (currentNumberAddRequests < maxNumberRequests) {
 
         fetch(addEndpoint)
@@ -120,6 +139,20 @@ function submitBook() {
 
 }
 
+const validateInput = function (title, author) {
+    if (title.value === "") {
+        window.alert("Please enter the book title.");
+        title.focus();
+        return false;
+    }
+    if (author.value === "") {
+        window.alert('Please enter the author of the book.');
+        author.focus();
+        return false;
+    }
+    return true;
+}
+
 function removeKey() {
     localStorage.clear();
     initializePage();
@@ -128,6 +161,8 @@ function removeKey() {
     currentNumberApiRequests = 0;
     currentNumberAddRequests = 0;
     currentNumberRequests = 0;
+    currentNumberDeleteRequests = 0;
+    currentNumberEditRequests = 0;
 }
 
 function initializePage() {
@@ -282,11 +317,27 @@ const updateBook = function () {
     addBookStatus.innerHTML = "";
     const deleteBookStatus = document.getElementById('delete-book-status');
     deleteBookStatus.innerHTML = "";
-    const newTitle = document.getElementById('title').value;
-    const newAuthor = document.getElementById('author').value;
+    const newTitle = document.getElementById('title');
+    const newTitleValue = newTitle.value;
+    const newAuthor = document.getElementById('author');
+    const newAuthorValue = newAuthor.value;
     const getBookToEditId = document.getElementById('book-edit-id').value;
-    const updateBookQuery = `key=${key}&op=update&id=${getBookToEditId}&title=${newTitle}&author=${newAuthor}`;
+    const updateBookQuery = `key=${key}&op=update&id=${getBookToEditId}&title=${newTitle.value}&author=${newAuthor.value}`;
     const editingEndpoint = baseUrl + updateBookQuery;
+
+    if (!validateInput(newTitle, newAuthor)) {
+        return false;
+    }
+    // if (newTitleValue === "") {
+    //     window.alert("Please enter the book title.");
+    //     newTitle.focus();
+    //     return false;
+    // }
+    // if (newAuthorValue === "") {
+    //     window.alert('Please enter the author of the book.');
+    //     newAuthor.focus();
+    //     return false;
+    // }
 
     if (currentNumberEditRequests < maxNumberRequests) {
         fetch(editingEndpoint)
