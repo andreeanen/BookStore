@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andreea Nenciu - Booklist</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Hind|Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind|Montserrat" rel="stylesheet">
 
 </head>
 
@@ -17,7 +17,7 @@
                 <h1>My Booklist</h1>
             </div>
         </header>
-        <section>
+        <div>
             <div class="box">
                 <button class="button" id="get-key-button" onclick="getApiKey()">Generate API key</button>
                 <button class="button" id="remove-key-button" onclick="removeKey()">Remove API key</button>
@@ -28,8 +28,8 @@
                 <button class="button" id="get-books" onclick="showBooks()">Get list of books</button>
             </div>
 
-        </section>
-        <section id="content">
+        </div>
+        <div id="content">
 
             <div class="box" id="show-books-status"></div>
             <ul class="box" id="book-list">
@@ -54,7 +54,7 @@
                 </form>
 
             </div>
-        </section>
+        </div>
     </section>
 
     <script src="script.js"></script>
