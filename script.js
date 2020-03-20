@@ -48,7 +48,7 @@ function getApiKey() {
 
     }
     else {
-        keyStatus.innerHTML = 'You reached maximum number of API key requests.';
+        keyStatus.innerHTML = 'You reached maximum number of API key requests. Try again!';
     }
 
 };
@@ -56,6 +56,7 @@ function getApiKey() {
 function showAddBookForm() {
     document.getElementById('form-add-book').style.display = 'block';
     document.getElementById('update-button').style.display = 'none';
+    document.getElementById('submit-button').style.display = 'block';
 
 }
 
@@ -73,6 +74,10 @@ function submitBook() {
     const addEndpoint = baseUrl + addBookQueryString;
     //const showBooksStatus = document.getElementById('show-books-status');
     const addBookStatus = document.getElementById('add-book-status');
+    const deleteBookStatus = document.getElementById('delete-book-status');
+    deleteBookStatus.innerHTML = "";
+    const modifyBookStatus = document.getElementById('modify-book-status');
+    modifyBookStatus.innerHTML = "";
     if (currentNumberAddRequests < maxNumberRequests) {
 
         fetch(addEndpoint)
@@ -110,7 +115,7 @@ function submitBook() {
     }
     else {
         //showBooksStatus.innerHTML = 'The book could not be added to the list.. Try again.';
-        addBookStatus.innerHTML = 'You reached the maximum number to add the book to the list.';
+        addBookStatus.innerHTML = 'You reached the maximum number of requests to add the book to the list. Try again!';
         currentNumberAddRequests = 0;
     }
 
@@ -192,11 +197,11 @@ function showBooks() {
             })
             .catch(function (error) {
                 console.log(error);
-                showBooksStatus.innerHTML = 'An error was caught when trying to show the books.';
+                showBooksStatus.innerHTML = 'An unexpected error was caught when trying to show the books.';
             })
     }
     else {
-        showBooksStatus.innerHTML = 'You reached the maximum number of tries to show the books.';
+        showBooksStatus.innerHTML = 'You reached the maximum number of tries to show the books. Press Get books button!';
         currentNumberRequests = 0;
     }
 
@@ -206,6 +211,10 @@ const deleteBook = function (key, id) {
     const deleteBookStatus = document.getElementById('delete-book-status');
     const deleteBookQueryString = `key=${key}&op=delete&id=${id}`;
     const deleteBookEndpoint = baseUrl + deleteBookQueryString;
+    const addBookStatus = document.getElementById('add-book-status');
+    addBookStatus.innerHTML = "";
+    const modifyBookStatus = document.getElementById('modify-book-status');
+    modifyBookStatus.innerHTML = "";
     if (currentNumberDeleteRequests < maxNumberRequests) {
 
         fetch(deleteBookEndpoint)
@@ -238,12 +247,12 @@ const deleteBook = function (key, id) {
             })
             .catch(function (error) {
                 console.log(error);
-                deleteBookStatus.innerHTML = 'An error was caught when trying to delete the book.';
+                deleteBookStatus.innerHTML = 'An unexpected error was caught when trying to delete the book.';
             })
     }
     else {
         //showBooksStatus.innerHTML = 'The book could not be deleted from the list.. Try again.';
-        deleteBookStatus.innerHTML = 'You reached the maximum number of tries to delete the book.';
+        deleteBookStatus.innerHTML = 'You reached the maximum number of requests to delete the book. Try again!';
         currentNumberDeleteRequests = 0;
     }
 }
@@ -252,6 +261,7 @@ const editForm = function (bookToEdit) {
     const form = document.getElementById('form-add-book');
     form.style.display = 'block';
     document.getElementById('submit-button').style.display = 'none';
+    document.getElementById('update-button').style.display = 'block';
 
     const oldTitle = document.getElementById('title');
     oldTitle.value = bookToEdit.title;
@@ -261,6 +271,7 @@ const editForm = function (bookToEdit) {
 
     const bookToEditId = document.getElementById('book-edit-id');
     bookToEditId.value = bookToEdit.id;
+
 }
 
 
@@ -268,6 +279,10 @@ const editForm = function (bookToEdit) {
 const updateBook = function () {
     const key = localStorage.getItem(apiKey);
     const modifyBookStatus = document.getElementById('modify-book-status');
+    const addBookStatus = document.getElementById('add-book-status');
+    addBookStatus.innerHTML = "";
+    const deleteBookStatus = document.getElementById('delete-book-status');
+    deleteBookStatus.innerHTML = "";
     const newTitle = document.getElementById('title').value;
     const newAuthor = document.getElementById('author').value;
     const getBookToEditId = document.getElementById('book-edit-id').value;
@@ -303,11 +318,11 @@ const updateBook = function () {
                 }
             })
             .catch(function (error) {
-                modifyBookStatus.innerHTML = 'An error was caught when trying to modify the book.';
+                modifyBookStatus.innerHTML = 'An unexpected error was caught when trying to modify the book.';
             })
     }
     else {
-        modifyBookStatus.innerHTML = 'You reached maximum number of requests to modify the book.';
+        modifyBookStatus.innerHTML = 'You reached maximum number of requests to modify the book. Try again!';
     }
 }
 
